@@ -41,4 +41,25 @@ package ComputerVisionSystem {
         port detectionOutput: DataOutputPort; // Sends processed food recognition data
         port networkInterface: NetworkPort; // Connects to cloud or database for AI updates
     }
+
+    // Define Actions for Image Processing Workflow
+    action def ReceiveImage { out rawImage: String; }
+    action def PreprocessImage { in imageData: String; out cleanedImage: String; }
+    action def DetectObjects { in processedImage: String; out objectData: String; }
+    action def ClassifyFood { in detectedObjects: String; out classifiedFood: String; }
+    action def SendRecognitionData { in foodData: String; }
+
+    // Define Flow for Computer Vision Processing
+    action ComputerVisionProcessingWorkflow {
+        action receiveImage: ReceiveImage[1];
+        action preprocessImage: PreprocessImage[1];
+        action detectObjects: DetectObjects[1];
+        action classifyFood: ClassifyFood[1];
+        action sendData: SendRecognitionData[1];
+
+        flow receiveImage.rawImage to preprocessImage.imageData;
+        flow preprocessImage.cleanedImage to detectObjects.processedImage;
+        flow detectObjects.objectData to classifyFood.detectedObjects;
+        flow classifyFood.classifiedFood to sendData.foodData;
+    }
 }

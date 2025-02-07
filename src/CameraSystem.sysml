@@ -43,4 +43,22 @@ package CameraSystem {
         port networkInterface: NetworkPort; // Sends data over the network
         port storageInterface: StoragePort; // Saves images locally or on cloud
     }
+
+    // Define Actions for Camera Image Capture Workflow
+    action def DetectFoodPlacement { out triggerSignal: Boolean; }
+    action def CaptureFrame { in trigger: Boolean; out rawImage: String; }
+    action def StoreImage { in imageData: String; }
+    action def SendImageData { in imageData: String; }
+
+    // Define Flow for Capturing Food Images
+    action CameraCaptureWorkflow {
+        action detectFood: DetectFoodPlacement[1];
+        action captureFrame: CaptureFrame[1];
+        action storeImage: StoreImage[1];
+        action sendImage: SendImageData[1];
+
+        flow detectFood.triggerSignal to captureFrame.trigger;
+        flow captureFrame.rawImage to storeImage.imageData;
+        flow captureFrame.rawImage to sendImage.imageData;
+    }
 }
