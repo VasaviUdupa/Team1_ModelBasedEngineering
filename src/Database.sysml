@@ -11,15 +11,18 @@ package SmartHomeKitchenComponents {
         attribute databaseType: String;  // e.g., "SQL", "NoSQL"
         attribute storageSize: Real;  // e.g., "1TB"
         attribute securityFeatures: String;  // e.g., "Encryption, Access Control"
-        
+        attribute indexPerformance: Real;  // e.g., "100 queries/sec"
+        attribute faultToleranceLevel: String;  // e.g., "High Availability"
+
         // Communication Ports
-        port dataInput: DataPort;  // Receives data from other components
-        port dataOutput: DataPort; // Sends data to other components
+        port dataInput: DataPort;  // Receives data from sensors and user inputs
+        port dataOutput: DataPort; // Sends data to UI and other systems
         port backupInterface: StoragePort; // Interface for data backup
-        
+
         // Actions
         action StoreData { in data: String; }
         action RetrieveData { in query: String; out result: String; }
         action BackupData {}
+        action OptimizeDatabase {}
     }
 }
