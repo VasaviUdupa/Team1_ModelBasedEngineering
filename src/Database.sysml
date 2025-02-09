@@ -1,7 +1,7 @@
 package SmartHomeKitchenComponents {
 
-    import ScalarValues::*;
-    import SI::*;
+    private import ScalarValues::*;
+    private import SI::*;
 
     // Define Database Management System (DBMS)
     part def DatabaseManagementSystem {

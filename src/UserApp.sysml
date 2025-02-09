@@ -1,7 +1,7 @@
 package SmartHomeKitchenComponents {
 
-    import ScalarValues::*;
-    import SI::*;
+    private import ScalarValues::*;
+    private import SI::*;
 
     // Define User Interface (UI)
     part def UserInterface {

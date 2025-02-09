@@ -1,37 +1,18 @@
 package Recipe {
     private import Ingredient::*;
     
-    action def PrepareIngredients { 
-    	in rawIngredients : Ingredient [*]; 
-    	out prepedIngredients : Ingredient [*]; 
-    }
-    action def CookIngredients { 
-    	in prepedIngredients : Ingredient [*]; 
-    	out cookedIngredients : Ingredient [*]; 
-    }
-    action def PrepareMeal { 
-    	in cookedIngredients : Ingredient [*]; 
-    	out completedMeal : Ingredient; 
-    }
+    // Abstract action of the recipe, to be redifined by LLM
+    abstract action def PrepareIngredients {in rawIngredients : Ingredient [*]; out prepedIngredients : Ingredient [*];}
+    abstract action def CookIngredients {in prepedIngredients : Ingredient [*]; out cookedIngredients : Ingredient [*];}
+    abstract action def PrepareMeal {in cookedIngredients : Ingredient [*]; out completedMeal : Ingredient;}
    
-   	action prepareIngredients: PrepareIngredients {
-   		in item rawIngredients;
-   		out item prepedIngredients;
+   	// Define the flow of the food from raw ingridients to meal 
+	action RecipeFoodFlow {
+   		action prepareIngredients: PrepareIngredients {in rawIngredients; out prepedIngredients;}
+   		action cookIngredients: CookIngredients {in prepedIngredients; out cookedIngredients;}
+   		action prepareMeal: PrepareMeal {in cookedIngredients; out completedMeal;}
+		flow from prepareIngredients.prepedIngredients to cookIngredients.prepedIngredients;
+		flow from cookIngredients.cookedIngredients to prepareMeal.cookedIngredients;
    	}
-   	
-   	flow from prepareIngredients.prepedIngredients to cookIngredients.prepedIngredients;
-   	
-   	action cookIngredients: CookIngredients {
-   		in item prepedIngredients;
-   		out item cookedIngredients;
-   	}
-   	
-   	flow from cookIngredients.cookedIngredients to prepareMeal.cookedIngredients;
-   	
-    action prepareMeal: PrepareMeal {
-   		in item cookedIngredients;
-   		out item completedMeal;
-   	} 
-   
  }
     
