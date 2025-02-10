@@ -2,6 +2,13 @@ package SmartHomeKitchenComponents {
 
     private import ScalarValues::*;
     private import SI::*;
+    
+    // Define Data Port
+    port def DataPort {
+        doc /* Processed data output */
+        attribute dataFormat: String; // e.g., "JSON", "XML"
+        attribute transferRate: Real; // e.g., "20 Mbps"
+    }
 
     // Define Motion Sensor
     part def MotionSensor {
