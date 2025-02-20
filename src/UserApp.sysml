@@ -3,6 +3,13 @@ package SmartHomeKitchenComponents {
     private import ScalarValues::*;
     private import SI::*;
 
+    // Define Data Port
+    port def DataPort {
+        doc /* Processed data output */
+        attribute dataFormat: String; // e.g., "JSON", "XML"
+        attribute transferRate: Real; // e.g., "20 Mbps"
+    }
+    
     // Define User Interface (UI)
     part def UserInterface {
         doc /* Interface for user interactions with the smart home kitchen system */
