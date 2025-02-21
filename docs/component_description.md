@@ -73,6 +73,30 @@ The Computer Vision system uses AI-based object detection to recognize food item
 4. Sends structured food data to the Computer for processing.  
 
 ---
+## **4. Hardware Systems **
+**Key Attributes:**
+- **PowerSystem:** 
+Voltage: Defines the electrical potential supplied to the system, ensuring compatibility and performance for connected devices.
+- **Wiring Harness:**
+Wire Gauge: Determines the current-carrying capacity and resistance of the wires, which affects safety and efficiency of power transfer.
+- **Refrigerator:**
+Temperature: Indicates the internal operating temperature, which is crucial for monitoring and maintaining optimal refrigeration conditions.
+
+**Key Functions in the Hardware System**
+1. PowerSystem:
+Supplies regulated electrical power to all connected components.
+Ensures stability and prevents power surges that could damage downstream devices.
+2. Wiring Harness:
+Transfers electrical power from the PowerSystem to connected devices (e.g., Refrigerator). 
+Acts as a conduit to ensure uninterrupted and safe power delivery.
+3. Refrigerator: 
+Consumes power to regulate internal temperature.
+Ensures food preservation through controlled cooling.
+**Data Flow**
+1. Power Flow from PowerSystem to Wiring Harness: 
+Electrical power is output through the powerOut port of the PowerSystem and flows to the powerIn port of the Wiring Harness. 
+2. Power Flow from Wiring Harness to Refrigerator: 
+Electrical power flows from the powerOut port of the Wiring Harness to the powerIn port of the Refrigerator.
 
 ## **Summary**
 | **Component**       | **Function** |
