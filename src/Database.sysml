@@ -2,42 +2,60 @@ package SmartHomeKitchenComponents {
 
     private import ScalarValues::*;
     private import SI::*;
-    
-        // Define Data Port
+
+    // Define Data Port
     port def DataPort {
-        doc /* Processed data output */
-        attribute dataFormat: String; // e.g., "JSON", "XML"
-        attribute transferRate: Real; // e.g., "20 Mbps"
+        doc /* Interface for data transmission */
+        attribute dataFormat: String = "JSON"; // Standard data format
+        attribute transferRate: Real = 20; // Mbps, rate at which data is transferred
     }
-    
+
     // Define Storage Port
     port def StoragePort {
-        doc /* Storage interface port definition */
-        attribute storageType: String;  // e.g., "Local SSD", "Cloud Storage"
-        attribute capacity: Real;  // e.g., "500GB"
-        attribute readWriteSpeed: Real;  // e.g., "500MB/s"
+        doc /* Interface for storage systems */
+        attribute storageType: String = "Cloud Storage"; // Primary storage type
+        attribute capacity: Real = 1024; // GB, total storage capacity
+        attribute readWriteSpeed: Real = 500; // MB/s, speed of data storage and retrieval
     }
 
     // Define Database Management System (DBMS)
     part def DatabaseManagementSystem {
-        doc /* Manages data storage, retrieval, and integrity for the smart kitchen */
+        doc /* System managing food data storage, retrieval, and integrity */
 
-        // Attributes defining the DBMS specifications
-        attribute databaseType: String;  // e.g., "SQL", "NoSQL"
-        attribute storageSize: Real;  // e.g., "1TB"
-        attribute securityFeatures: String;  // e.g., "Encryption, Access Control"
-        attribute indexPerformance: Real;  // e.g., "100 queries/sec"
-        attribute faultToleranceLevel: String;  // e.g., "High Availability"
+        // Attributes defining DBMS specifications
+        attribute databaseType: String = "NoSQL"; // Flexible data model suitable for varied data types
+        attribute storageSize: Real = 1024; // GB, total size of the database storage
+        attribute securityFeatures: String = "Encryption, Access Control"; // Security measures
+        attribute indexPerformance: Real = 100; // Queries per second, performance of data indexing
+        attribute faultToleranceLevel: String = "High Availability"; // System reliability and uptime
 
         // Communication Ports
-        port dataInput: DataPort;  // Receives data from sensors and user inputs
-        port dataOutput: DataPort; // Sends data to UI and other systems
-        port backupInterface: StoragePort; // Interface for data backup
+        port dataInput: DataPort; // Receives data from sensors and user interfaces
+        port dataOutput: DataPort; // Outputs data to UI and other system components
+        port backupInterface: StoragePort; // Manages backups to secondary storage
 
         // Actions
         action StoreData { in data: String; }
         action RetrieveData { in query: String; out result: String; }
         action BackupData {}
         action OptimizeDatabase {}
+        action UpdateData { in newData: String; }
+        action DeleteData { in dataID: String; }
+
+        // Flows
+        flow ProcessData {
+            action receiveData: StoreData[1];
+            action retrieveData: RetrieveData[1];
+            action updateData: UpdateData[1];
+            action deleteData: DeleteData[1];
+            action backupData: BackupData[1];
+            action optimize: OptimizeDatabase[1];
+
+            // Data handling sequence
+            flow receiveData.data to updateData.newData;
+            flow updateData.newData to backupData;
+            flow retrieveData.result to deleteData.dataID;
+            flow deleteData to optimize;
+        }
     }
 }
