@@ -1,0 +1,47 @@
+Value stream analysis
+1. Scope & Goal: From the user being hungry wanting to consume the meal, to using the smart fridge for inventory and recipe suggestions. 
+Goal: Identify potential waste and improve efficiency in meal planning and preparation.
+2. Current State Value Stream Map:
+●	Trigger: User decides to make a meal. (Time: 1 minute - Value-Adding)
+●	Inventory Check (Manual): User opens fridge, visually checks for ingredients. (Time: 3 minutes - Non-Value-Adding, Motion, Potential Defect: Inaccurate assessment)
+●	Recipe Idea Generation (Manual): User considers possible meals based on perceived ingredients. (Time: 5 minutes - Non-Value-Adding, Waiting, Potential Defect: Limited options)
+●	Smart Fridge Inventory Check: User interacts with fridge to confirm available ingredients. (Time: 2 minutes - Value-Adding, Information Flow)
+●	Recipe Search (Fridge): User requests recipe suggestions from fridge based on available ingredients. (Time: 1 minute - Value-Adding, Information Flow)
+●	Recipe Selection: User reviews suggestions and selects a recipe. (Time: 2 minutes - Value-Adding)
+●	Ingredient Gathering: User gathers ingredients from fridge and pantry. (Time: 5 minutes - Non-Value-Adding, Motion)
+●	Meal Preparation: User prepares the meal. (Time: 30 minutes - Value-Adding)
+●	Consumption: User eats the meal. (Time: 20 minutes - Value-Adding)
+Current State Metrics:
+●	Total Process Time: 69 minutes
+●	Value-Adding Time: 34 minutes (49%)
+●	Non-Value-Adding Time: 35 minutes (51%)
+●	Key Waste: Motion (ingredient gathering), Waiting (recipe idea generation), Defects (inaccurate inventory assessment, limited recipe options)
+3. Analysis of Current State:
+●	Bottleneck: Ingredient gathering and manual recipe idea generation are time-consuming.
+●	Waste: Significant motion and waiting time. Potential for inaccurate inventory assessment and limited recipe options due to manual steps.
+4. Future State Value Stream Map:
+●	Trigger: User decides to make a meal. (Time: 1 minute - Value-Adding)
+●	Smart Fridge Inventory Check: User interacts with fridge to confirm available ingredients. (Time: 2 minutes - Value-Adding, Information Flow)
+●	Recipe Search (Fridge): User requests recipe suggestions from fridge based on available ingredients, including soon-to-expire items. (Time: 1 minute - Value-Adding, Information Flow)
+●	Recipe Selection: User reviews suggestions, filtered by dietary needs and preparation time, and selects a recipe. (Time: 1 minute - Value-Adding)
+●	Ingredient Gathering (Optimized): Fridge displays a list of required ingredients with their location in the fridge/pantry (if integrated). (Time: 2 minutes - Non-Value-Adding, Motion Reduced)
+●	Meal Preparation: User prepares the meal. (Time: 30 minutes - Value-Adding)
+●	Consumption: User eats the meal. (Time: 20 minutes - Value-Adding)
+Future State Metrics:
+●	Total Process Time: 57 minutes
+●	Value-Adding Time: 34 minutes (59%)
+●	Non-Value-Adding Time: 23 minutes (41%)
+●	Key Improvements: Reduced motion and waiting time. Improved recipe suggestions.
+5. Implementation Plan:
+Action 1: Enhance fridge software to include ingredient location tracking (if feasible).
+●	Responsible Party: Software Engineering Team
+●	Timeline: 3 months
+●	Metrics: Reduction in ingredient gathering time (minutes).
+Action 2: Improve recipe suggestion algorithm to consider dietary needs, preparation time, and soon-to-expire ingredients.
+●	Responsible Party: Software Engineering Team
+●	Timeline: 2 months
+●	Metrics: User satisfaction with recipe suggestions (survey). Number of meals made with soon-to-expire ingredients.
+Action 3: User training/onboarding for new fridge features.
+●	Responsible Party: Marketing/User Experience Team
+●	Timeline: 1 month (concurrent with software development)
+●	Metrics: User adoption of new features.
