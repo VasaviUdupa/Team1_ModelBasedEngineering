@@ -1,5 +1,8 @@
 package SensorSystem {
 
+ 	private import ScalarValues::*;
+    private import SI::*;
+
     // Define Sensor Port
     port def SensorPort {
         doc /* Interface for sensor signals */
