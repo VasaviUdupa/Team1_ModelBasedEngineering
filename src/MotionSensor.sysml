@@ -25,7 +25,7 @@ package SensorSystem {
 
         // Attributes defining Sensor specifications
         attribute modelNumber: String = "DS1001"; // Model of the sensor
-        attribute installationDate: Date; // Date when the sensor was installed
+        attribute installationDate = 2023-01-01; // Date when the sensor was installed
         attribute powerRequirement: Real = 0.5; // Power requirement in watts
 
         // Communication Ports
