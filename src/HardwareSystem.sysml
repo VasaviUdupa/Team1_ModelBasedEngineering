@@ -1,6 +1,7 @@
 package HardwareSystem {
     private import ScalarValues::*;
     private import SI::*;
+    private import MotionSensor::*;
 
     // =============================================
     // REQUIREMENTS
@@ -74,6 +75,7 @@ package HardwareSystem {
         ref part wiringHarness: WiringHarness;
         ref part powerSystem: PowerSystem;
         ref part camera: Camera;
+        ref part doorSensor: DoorSensor;
 
         // Structural Connections
         association RefrigeratorToCamera {
@@ -86,6 +88,17 @@ package HardwareSystem {
             to wiringHarness.powerIn;
             to refrigerator.powerIn;
             to camera.powerIn;
+            to doorSensor.powerInput;
+        }
+
+        association SensorToRefrigerator {
+            from doorSensor.sensorOutput;
+            to refrigerator;
+        }
+
+        association SensorToNetowrk {
+            from doorSensor.communicationLink;
+            to internetConnects;
         }
 
         // Requirement Satisfactions
