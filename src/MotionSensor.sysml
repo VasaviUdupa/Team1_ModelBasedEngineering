@@ -12,6 +12,12 @@ package SensorSystem {
         attribute debounceTime: Real = 0.1; // Time in seconds to stabilize signal
     }
 
+    // Define Power Port
+    port def PowerPort{
+        doc /* Interface for receiving power */
+        attribute voltage: Real = 5.0; // Power requirement in volts
+    }
+
     // Define Communication Port
     port def CommPort {
         doc /* Interface for communicating with other system components */
