@@ -1,4 +1,4 @@
-# Team1_ModelBasedEngineering
+# Smart Home Kitchen
 
 Needs:
 The Smart Home Kitchen will reduce food wastage, provide a nutritious diet, and reduce the stress of everyday cooking.
