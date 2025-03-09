@@ -39,7 +39,7 @@ class Computer:
 
     def get_image_data(self):
         yield self.boot_finished_event
-        self.boot_finished_event = simpy.Event(self.env)
+        # self.boot_finished_event = simpy.Event(self.env)
         yield self.env.process(self.image_port.set_data_request(self.name, "Image"))
         while True:
             yield self.env.process(self.camera.capture_frame())
@@ -51,19 +51,19 @@ class Computer:
     
     def upload_image_data(self):
         yield self.image_received_event
-        self.image_received_event = simpy.Event(self.env)
+        # self.image_received_event = simpy.Event(self.env)
         yield self.env.process(self.database_port.set_data_ready(self.name, "Image"))
         yield self.env.process(self.database.recieve_data("Image"))
         self.upload_image_data_event.succeed()
         
     def get_image_classification(self):
         yield self.upload_image_data_event
-        self.upload_image_data_event = simpy.Event(self.env)
+        # self.upload_image_data_event = simpy.Event(self.env)
         yield self.env.process(self.cv_port.set_data_request(self.name, "Image classification"))
         self.image_classification_request_event.succeed()
         while True:
             yield self.image_classification_request_event
-            self.image_classification_request_event = simpy.Event(self.env)
+            # self.image_classification_request_event = simpy.Event(self.env)
             yield self.env.process(self.computer_vision.recive_image_classification_request())
             yield self.env.process(self.computer_vision.database.database_port.set_data_request(self.computer_vision.name, "Image"))
             yield self.env.process(self.computer_vision.database.send_data("Image"))
@@ -77,19 +77,19 @@ class Computer:
     
     def upload_image_classification_data(self):
         yield self.image_classification_received_event
-        self.image_classification_received_event = simpy.Event(self.env)
+        # self.image_classification_received_event = simpy.Event(self.env)
         yield self.env.process(self.database_port.set_data_ready(self.name, "Image Classification"))
         yield self.env.process(self.database.recieve_data("Image Classification"))
         self.upload_image_classification_event.succeed()
         
     def get_llm_recipe(self):
         yield self.upload_image_classification_event
-        self.upload_image_classification_event = simpy.Event(self.env)
+        # self.upload_image_classification_event = simpy.Event(self.env)
         yield self.env.process(self.llm_port.set_data_request(self.name, "LLM recipe"))
         self.llm_recipe_request_event.succeed()
         while True:
             yield self.llm_recipe_request_event
-            self.llm_recipe_request_event = simpy.Event(self.env)
+            # self.llm_recipe_request_event = simpy.Event(self.env)
             yield self.env.process(self.llm.receive_recipe_request())
             yield self.env.process(self.llm.database.database_port.set_data_request(self.llm.name, "Ingredient manifest"))
             yield self.env.process(self.llm.database.send_data("Ingredient manifest"))
