@@ -1,4 +1,4 @@
-### **Overview of the Computer, Camera, and Computer Vision Components**  
+### **Overview of the Computer, Camera, Computer Vision Components, Hardware Components, and LLM**  
 
 ---
 
@@ -98,11 +98,34 @@ Electrical power is output through the powerOut port of the PowerSystem and flow
 2. Power Flow from Wiring Harness to Refrigerator: 
 Electrical power flows from the powerOut port of the Wiring Harness to the powerIn port of the Refrigerator.
 
+## **5. Large Language Model (LLM) (AI-Based Recipe Creation)**
+**Purpose:**  
+The LLMs purpose is to use the ingredient manifest to create recipe that conform to the requirements and desires of the user.
+
+**Key Functions:**
+- Retrieves the ingredient manifest from the database.  
+- Retrieves dietary resitictions and goals from the user.  
+- Provides easy to follow recipe with the given ingredients to achieve dietary needs.  
+- Allows for user feedback to improve recipe recomendations
+
+**Key Attributes:**
+- **LLM:** Uses ChatGTP, Claude, Gemini or other equivalent LLM.  
+- **Recipe Quality:** Recipe easy of use and accuracy in following constraints.  
+- **Processing Speed:** Creates recipe in real time.  
+- **Network Connectivity:** Updates AI models from the cloud.  
+
+**Data Flow:**
+1. Receives food manifest from the database.  
+2. Creates recipe based on constraints.  
+3. Sends recipe to computer.  
+
 ## **Summary**
 | **Component**       | **Function** |
 |---------------------|-------------|
 | **Computer (Processing Unit)** | Manages food data, runs AI, and connects to smart home devices. |
 | **Camera (Image Capture System)** | Captures food images and sends them to AI for recognition. |
 | **Computer Vision (AI-Based Food Recognition)** | Uses AI to identify and classify food items. |
+| **Hardware Systems (Key Harware Components)** | Allows for smart refrigerator capabilities. |
+| **LLM (AI-Based Recipe Generation)** | Uses AI to generate recipes given ingredients and constraints. |
 
 This modular approach allows easy scalability, real-time data processing, and automated food recognition.  
