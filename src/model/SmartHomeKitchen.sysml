@@ -1,4 +1,4 @@
-package 'Smart Home Kitchen' {
+package SmartHomeKitchen {
     private import ScalarValues::*;
     private import CameraSystem::*;
     private import ComputerSystem::*;
