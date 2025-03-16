@@ -51,7 +51,7 @@
 
 | Attribute               | Standard Computer System | High-Performance Computer System | Weights | Comments                          |
 |-------------------------|--------------------------|----------------------------------|---------|-----------------------------------|
-| Size (m³)               | 0.015 (15 liters)        | 0.025 (25 liters)                | -0.1    | Smaller is better; Standard System is favored. |
+| Size (m³)               | 0.015                    | 0.025                            | -0.1    | Smaller is better; Standard System is favored. |
 | Mass (kg)               | 6                        | 10                               | -0.1    | Lighter is better; Standard System is favored. |
 | Power Consumption (W)   | 150                      | 400                              | -0.2    | Lower is better; Standard System is favored. |
 | Cost (USD)              | 800                      | 1500                             | -0.1    | Lower is better; Standard System is favored. |
