@@ -1,175 +1,198 @@
-package SmartHomeKitchenVerification {
-    
-    private import SmartHomeKitchen::*;
-    private import SmartHomeKitchenRequirements::*;
-    private import VerificationCases::*;
-	// private import Definitions::*;
+package SmartHomeKitchenVerificationStandalone {
+	
+	private import ScalarValues::*;
+	private import Definitions::*;
+	private import Usages::*;
+	public import VerificationCases::*;
+    public import VerificationSystem::*;
 
-    // 📌 Verification for Food Tracking
-    verification def VerifyFoodTracking {
-        subject systemUnderTest : SmartHomeKitchen;
+    package Definitions {
 
-        objective foodTrackingVerification {
-            // doc /* Ensures that food items are correctly detected, added, and removed. */
-            // verify REQ-1001; // Linking to OSLC requirement for food tracking
+        // Define System Components for Verification
+        part def SmartHomeKitchen {
+            attribute systemStatus: String;
+            attribute detectedFood: Boolean;
+            attribute databaseUpdated: Boolean;
+            attribute recipeGenerated: Boolean;
+            attribute notificationSent: Boolean;
+        }
 
-            assume constraint {
-                systemUnderTest.cameraSystem.isOperational &
-                systemUnderTest.computerVisionSystem.isProcessing;
+        // Define Requirement Definitions
+        requirement def FoodTrackingRequirement {
+            attribute detectedFood : Boolean;
+            attribute databaseUpdated : Boolean;
+
+            doc /* The system shall correctly detect food items and update the database. */
+
+            require constraint { detectedFood == true & databaseUpdated == true }
+        }
+
+        requirement def RecipeGenerationRequirement {
+            attribute recipeGenerated : Boolean;
+
+            doc /* The system shall generate a valid recipe based on detected food. */
+
+            require constraint { recipeGenerated == true }
+        }
+
+        requirement def NotificationRequirement {
+            attribute notificationSent : Boolean;
+
+            doc /* The system shall notify users about low stock and expired food. */
+
+            require constraint { notificationSent == true }
+        }
+
+        // Define Verification System
+        part def VerificationSystem;
+        part def SensorModule;
+        part def TestOperator;
+        part def FoodDatabase;
+
+        // Define Instances for Testing
+        individual def TestKitchen :> SmartHomeKitchen;
+        individual def TestVerificationSystem :> VerificationSystem;
+
+        // Define Verification for Food Tracking
+        verification def VerifyFoodTracking {
+            objective foodTrackingObjective {
+                verify requirement trackingRequirement : FoodTrackingRequirement;
             }
+        }
 
-            require constraint {
-                systemUnderTest.inventoryDatabase.updatedCorrectly;
+        // Define Verification for Recipe Generation
+        verification def VerifyRecipeGeneration {
+            objective recipeGenerationObjective {
+                verify requirement recipeRequirement : RecipeGenerationRequirement;
             }
         }
 
-        action collectData {
-            in foodBefore : InventoryDatabase;
-            in foodAfter : InventoryDatabase;
-            out detectedChanges : Boolean;
+        // Define Verification for Notification System
+        verification def VerifyNotification {
+            objective notificationObjective {
+                verify requirement notificationRequirement : NotificationRequirement;
+            }
         }
-
-        action processData {
-            in detectedChanges : Boolean;
-            out verificationResult : Boolean;
-        }
-
-        action evaluateResults {
-            in verificationResult : Boolean;
-            out verdict : VerdictKind = PassIf(verificationResult);
-        }
-
-        return verificationOutcome : VerdictKind = evaluateResults.verdict;
     }
 
-    // 📌 Verification for Recipe Suggestion Accuracy
-    verification def VerifyRecipeSuggestions {
-        subject systemUnderTest : SmartHomeKitchen;
+    package Usages {
 
-        objective recipeVerification {
-            doc /* Ensures that suggested meals match available ingredients and dietary needs. */
-            verify REQ-1002; // Linking to OSLC requirement for recipe generation
+        // Requirement Instances
+        requirement foodTrackingReq : FoodTrackingRequirement {
+            subject kitchenSystem : SmartHomeKitchen;
 
-            assume constraint {
-                systemUnderTest.llmModel.isOperational &
-                systemUnderTest.inventoryDatabase.isUpdated;
+            :>> detectedFood = kitchenSystem.detectedFood;
+            :>> databaseUpdated = kitchenSystem.databaseUpdated;
+        }
+
+        requirement recipeGenReq : RecipeGenerationRequirement {
+            subject kitchenSystem : SmartHomeKitchen;
+
+            :>> recipeGenerated = kitchenSystem.recipeGenerated;
+        }
+
+        requirement notificationReq : NotificationRequirement {
+            subject kitchenSystem : SmartHomeKitchen;
+
+            :>> notificationSent = kitchenSystem.notificationSent;
+        }
+
+        // Verification Instances
+        verification foodTrackingTest : VerifyFoodTracking {
+            subject testKitchen : SmartHomeKitchen;
+
+            objective foodTrackingObjective {
+                verify foodTrackingReq :>> trackingRequirement;
             }
 
-            require constraint {
-                systemUnderTest.recipeSuggestions.generatedCorrectly;
-            }
-        }
-
-        action collectData {
-            in availableIngredients : InventoryDatabase;
-            out suggestedRecipes : RecipeSuggestions;
-        }
-
-        action checkDietaryRestrictions {
-            in suggestedRecipes : RecipeSuggestions;
-            out dietaryCompliant : Boolean;
-        }
-
-        action evaluateResults {
-            in dietaryCompliant : Boolean;
-            out verdict : VerdictKind = PassIf(dietaryCompliant);
-        }
-
-        return verificationOutcome : VerdictKind = evaluateResults.verdict;
-    }
-
-    // 📌 Verification for Notification System Reliability
-    verification def VerifyNotifications {
-        subject systemUnderTest : SmartHomeKitchen;
-
-        objective notificationVerification {
-            doc /* Ensures users receive notifications for expiring food and low stock. */
-            verify REQ-3002; // Linking to OSLC requirement for notification system
-
-            assume constraint {
-                systemUnderTest.notificationSystem.isOperational;
+            action collectData {
+                in part testKitchen : SmartHomeKitchen = foodTrackingTest.testKitchen;
+                out foodDetected : Boolean;
             }
 
-            require constraint {
-                systemUnderTest.notificationSystem.alertsSent;
-            }
-        }
-
-        action collectData {
-            in expiringItems : InventoryDatabase;
-            out sentAlerts : NotificationSystem;
-        }
-
-        action checkTimeliness {
-            in sentAlerts : NotificationSystem;
-            out alertTimely : Boolean;
-        }
-
-        action evaluateResults {
-            in alertTimely : Boolean;
-            out verdict : VerdictKind = PassIf(alertTimely);
-        }
-
-        return verificationOutcome : VerdictKind = evaluateResults.verdict;
-    }
-
-    // 📌 Verification for Stock Monitoring System
-    verification def VerifyStockMonitoring {
-        subject systemUnderTest : SmartHomeKitchen;
-
-        objective stockMonitoringVerification {
-            doc /* Ensures that stock monitoring and alerts are functioning correctly. */
-            verify REQ-3001; // Linking to OSLC requirement for stock monitoring
-
-            assume constraint {
-                systemUnderTest.inventoryDatabase.isOperational;
+            action processData {
+                in foodDetected : Boolean = collectData.foodDetected;
+                out databaseUpdated : Boolean;
             }
 
-            require constraint {
-                systemUnderTest.lowStockAlertsGenerated;
-            }
-        }
-
-        action collectData {
-            in inventoryData : InventoryDatabase;
-            out lowStockAlerts : NotificationSystem;
-        }
-
-        action evaluateResults {
-            in lowStockAlerts : NotificationSystem;
-            out verdict : VerdictKind = PassIf(lowStockAlerts.alertGenerated);
-        }
-
-        return verificationOutcome : VerdictKind = evaluateResults.verdict;
-    }
-
-    // 📌 Verification for Overall System Performance
-    verification def VerifySystemPerformance {
-        subject systemUnderTest : SmartHomeKitchen;
-
-        objective systemPerformanceVerification {
-            doc /* Ensures that the system operates efficiently under normal and high-load conditions. */
-            verify REQ-1003; // Linking to OSLC requirement for system performance
-
-            assume constraint {
-                systemUnderTest.isOnline;
+            action evaluateData {
+                in databaseUpdated : Boolean = processData.databaseUpdated;
+                out verdict : VerdictKind = PassIf(foodTrackingReq(kitchenSystem = testKitchen(detectedFood = processData.foodDetected, databaseUpdated = databaseUpdated)));
             }
 
-            require constraint {
-                systemUnderTest.responseTime < 1 [s];
+            return verdict : VerdictKind = evaluateData.verdict;
+        }
+
+        verification recipeGenTest : VerifyRecipeGeneration {
+            subject testKitchen : SmartHomeKitchen;
+
+            objective recipeGenerationObjective {
+                verify recipeGenReq :>> recipeRequirement;
+            }
+
+            action collectData {
+                in part testKitchen : SmartHomeKitchen = recipeGenTest.testKitchen;
+                out recipeGenerated : Boolean;
+            }
+
+            action evaluateData {
+                in recipeGenerated : Boolean = collectData.recipeGenerated;
+                out verdict : VerdictKind = PassIf(recipeGenReq(kitchenSystem = testKitchen(recipeGenerated = recipeGenerated)));
+            }
+
+            return verdict : VerdictKind = evaluateData.verdict;
+        }
+
+        verification notificationTest : VerifyNotification {
+            subject testKitchen : SmartHomeKitchen;
+
+            objective notificationObjective {
+                verify notificationReq :>> notificationRequirement;
+            }
+
+            action collectData {
+                in part testKitchen : SmartHomeKitchen = notificationTest.testKitchen;
+                out notificationSent : Boolean;
+            }
+
+            action evaluateData {
+                in notificationSent : Boolean = collectData.notificationSent;
+                out verdict : VerdictKind = PassIf(notificationReq(kitchenSystem = testKitchen(notificationSent = notificationSent)));
+            }
+
+            return verdict : VerdictKind = evaluateData.verdict;
+        }
+
+        // Define Test System Setup
+        part verificationSystem : VerificationSystem {
+            perform foodTrackingTest {
+                in part :>> testKitchen = kitchenUnderTest;
+            }
+
+            perform recipeGenTest {
+                in part :>> testKitchen = kitchenUnderTest;
+            }
+
+            perform notificationTest {
+                in part :>> testKitchen = kitchenUnderTest;
+            }
+
+            ref part kitchenUnderTest : SmartHomeKitchen;
+
+            part testOperator : TestOperator;
+            part sensorModule : SensorModule;
+        }
+
+        // Individual Test Runs
+        individual testSystem : TestVerificationSystem :> verificationSystem {
+            timeslice test1 {
+                ref individual :>> kitchenUnderTest : TestKitchen {
+                    :>> detectedFood = true;
+                    :>> databaseUpdated = true;
+                    :>> recipeGenerated = true;
+                    :>> notificationSent = true;
+                }
             }
         }
-
-        action simulateLoad {
-            in requestVolume : Integer;
-            out responseTime : Time;
-        }
-
-        action evaluateResults {
-            in responseTime : Time;
-            out verdict : VerdictKind = PassIf(responseTime < 1 [s]);
-        }
-
-        return verificationOutcome : VerdictKind = evaluateResults.verdict;
     }
 }
