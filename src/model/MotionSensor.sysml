@@ -24,6 +24,9 @@ package SensorSystem {
         attribute protocol: String = "ZigBee"; // Communication protocol used
         attribute range: Real = 50; // Range in meters
     }
+        // Communication Ports
+    port sensorOutput: SensorPort; // Sends signals based on door status
+    port communicationLink: CommPort; // Communicates with the central system
 
     // Define the Sensor Component
     part def DoorSensor {
@@ -34,12 +37,8 @@ package SensorSystem {
         attribute installationDate = 2023-01-01; // Date when the sensor was installed
         attribute powerRequirement: Real = 0.5; // Power requirement in watts
 
-        // Communication Ports
-        port sensorOutput: SensorPort; // Sends signals based on door status
-        port communicationLink: CommPort; // Communicates with the central system
-
         // Internal connections
-        internal connection sensorToComm: sensorOutput <-> communicationLink;
+        // internal connection sensorToComm: sensorOutput <-> communicationLink; Fix error
     }
 
     // Define Actions for Sensor Operation

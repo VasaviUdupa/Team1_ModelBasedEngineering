@@ -1,4 +1,4 @@
-package SmartHomeKitchenComponents {
+package DatabaseManagementSystem {
 
     private import ScalarValues::*;
     private import SI::*;
@@ -35,12 +35,12 @@ package SmartHomeKitchenComponents {
         port backupInterface: StoragePort; // Manages backups to secondary storage
 
         // Actions
-        action StoreData { in data: String; }
-        action RetrieveData { in query: String; out result: String; }
-        action BackupData {}
-        action OptimizeDatabase {}
-        action UpdateData { in newData: String; }
-        action DeleteData { in dataID: String; }
+        action def StoreData { in data: String; }
+        action def RetrieveData { in query: String; out result: String; }
+        action def BackupData {}
+        action def OptimizeDatabase {}
+        action def UpdateData { in newData: String; }
+        action def DeleteData { in dataID: String; }
 
         // Flows
         flow ProcessData {

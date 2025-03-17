@@ -1,7 +1,7 @@
 package HardwareSystem {
     private import ScalarValues::*;
     private import SI::*;
-    private import MotionSensor::*;
+    private import SensorSystem::*;
 
     // =============================================
     // REQUIREMENTS

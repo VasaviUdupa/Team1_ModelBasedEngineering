@@ -1,4 +1,4 @@
-package SmartHomeKitchenComponents {
+package UserInterface {
 
     private import ScalarValues::*;
     private import SI::*;
@@ -26,10 +26,10 @@ package SmartHomeKitchenComponents {
         port userOutput: DataPort; // Sends data to users in response to interactions
 
         // Actions for managing UI operations
-        action DisplayInformation { in content: String; }
-        action ReceiveInput { out command: String; }
-        action UpdateDisplaySettings { in newSettings: String; }
-        action ProvideFeedback { in feedbackType: String; }
+        action def DisplayInformation { in content: String; }
+        action def ReceiveInput { out command: String; }
+        action def UpdateDisplaySettings { in newSettings: String; }
+        action def ProvideFeedback { in feedbackType: String; }
 
         // Flow for User Interface Operations
         action UIOperations {
