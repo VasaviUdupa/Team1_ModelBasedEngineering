@@ -4,16 +4,13 @@ package SmartHomeKitchen {
     private import CameraSystem::*;
     private import ComputerSystem::*;
     private import ComputerVisionSystem::*;
-<<<<<<< HEAD
     private import DatabaseManagementSystem::*;
     private import SensorSystem::*;
     private import NotificationSystem::*;
     private import LLMSystem::*;
     private import UserInterface::*;
     private import Ingredient::*;
-=======
     private import HardwareSystem::*;
->>>>>>> aa5c2f0 (update import packages)
 
     // Define the main Smart Home Kitchen system
     part def SmartHomeKitchen {
